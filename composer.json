@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "discophp/framework":"dev-master"
+        "discophp/framework":"2.1"
     },
     "autoload": {
         "classmap":[
