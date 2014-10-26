@@ -11,8 +11,98 @@ function flex(){
         $('#body').css('margin-top',$('#header').height());
 }//flex
 
+var user = {};
+var todo = {};
+todo.user = {};
 
+todo.listen = function(){
+    $('body').on('click','.entry-action',function(){
+        $('.entry-action').removeClass('hide');
+        $('.entry-action').next().addClass('hide');
+        $(this).addClass('hide');
+        $(this).next().toggleClass('hide');
+    });
+}()//listen
 
+todo.user.createToDo = function(){
+    $('body').on('click','.add-to-do',function(){
+        var data = {'create-to-do':$('textarea[name="create-to-do"]').val()};
+        $.ajax({
+            url:'/create',
+            type:'POST',
+            data:data,
+            success:function(d){
+               if(d){
+                   $('.to-do-list-container').prepend(d); 
+               }//if
+            }//success
+        });
+    });
+}
+
+todo.user.finishedToDo = function(){
+    $('body').on('click','.button.finished',function(){
+        var data = {'finished-to-do':$(this).parent().parent().attr('data-id')},
+            that = this;
+        $.ajax({
+            url:'/finished',
+            data:data,
+            type:'PUT',
+            success:function(d){
+                $(that).parent().parent().find('.do').eq(0).removeClass('red').addClass('green');
+                $(that).remove();
+            }//success
+        });
+    });
+}//finishToDo
+
+todo.user.deleteToDo = function(){
+    $('body').on('click','.button.delete',function(){
+        var data = {'delete-to-do':$(this).parent().parent().attr('data-id')},
+            that = this;
+        $.ajax({
+            url:'/delete/'+data['delete-to-do'],
+            type:'DELETE',
+            success:function(d){
+                $(that).parent().parent().remove();    
+            }//success
+        });
+    });
+}//deleteToDo
+
+user.signup = function(){
+    $('body').on('click','.button.signup',function(){
+        var that = this;
+        $.ajax({
+            url:'/signup',
+            data:$(this).parent().serialize(),
+            type:'POST',
+            success:function(data){
+                if(data==-1){
+                    $(that).after('<div data-alert class="alert-box alert">That email is already in use<a class="close">&times;</a></div>');
+                }//elif
+                else if(data){
+                    window.location.href = window.location.href;
+                }//if
+            }//success
+        });
+    });
+}//signup
+
+user.signin = function(){
+    $('body').on('click','.button.signin',function(){
+        $.ajax({
+            url:'/signin',
+            data:$(this).parent().serialize(),
+            type:'POST',
+            success:function(data){
+                if(data==1){
+                    window.location.href = window.location.href;
+                }//if
+            }//success
+        });
+    });
+}//signup
 
 
 

@@ -1,0 +1,11 @@
+<div class='row collapse to-do' data-id='{{$id}}'>
+    <div class='do {{$finished_class}}'>{{$do}}</div>
+    <div class='time'>
+        <p>created: {{$created}}</p>
+        {{$finished_display}}
+    </div>
+    <div class='button-group'>
+        <div class='finished button tiny {{$finished_class1}}'>&#x2713;</div>
+        <div class='delete button tiny'>X</div>
+    </div>
+</div>

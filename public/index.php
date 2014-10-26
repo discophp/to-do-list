@@ -16,15 +16,11 @@ $app = new Disco;
 Disco::make('View','StandardView');
 
 
+//filter all authenticated requests to user router
+Router::filter('/{*}')->to('user')->auth('user');
 
-
-//match the index route
-Router::get('/',function(){
-
-    View::html('Disco is working');
-
-});
-
+//filter all normal requests to the root router
+Router::filter('/{*}')->to('root');
 
 
 

@@ -11,19 +11,19 @@ return Array(
 
     'DB_HOST'=>'localhost',
     'DB_USER'=>'root',
-    'DB_PASSWORD'=>'password',
-    'DB_DB'=>'testdb',
+    'DB_PASSWORD'=>'rainbow22',
+    'DB_DB'=>'TO_DO_EXAMPLE',
 
 
     'MEMCACHE_HOST'=>'localhost',
     'MEMCACHE_PORT'=>'11211',
 
 
-    'AES_KEY256'=>'You must set this to a 32 length string for secure encryption',
+    'AES_KEY256'=>'97d40080cd57993987cb776904316114',
 
 
-    'SHA512_SALT_LEAD'=>'somerandomstringhash',
-    'SHA512_SALT_TAIL'=>'morerandom'
+    'SHA512_SALT_LEAD'=>'fdb03542cab7',
+    'SHA512_SALT_TAIL'=>'d359f79bd419'
 );
 
 ?>
