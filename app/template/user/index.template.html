@@ -1,10 +1,15 @@
 <div class='row collapse'>
-    <div class='small-12 medium-8 columns'>
+    <div class='small-12 medium-10 columns'>
         <textarea name='create-to-do'></textarea>
     </div>
-    <div class='small-12 medium-4 columns text-center'>
+    <div class='small-12 medium-2 columns text-center'>
         <div class='button add-to-do radius'>Create</div>
     </div>
+</div>
+
+<div class='stats text-center clearfix'>
+    <div class='left'><span id='count'>{{$to_do_count}}</span><br>Unfinished </div>
+    <div class='right'><span id='total'>{{$to_do_total_count}}</span><br>Total</div>
 </div>
 
 <div class='to-do-list-container'>

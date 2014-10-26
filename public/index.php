@@ -23,7 +23,6 @@ Router::filter('/{*}')->to('user')->auth('user');
 Router::filter('/{*}')->to('root');
 
 
-
 /**
  * ---------------------------------
  * YOUR APPLICATION LOGIC STAYS ABOVE 

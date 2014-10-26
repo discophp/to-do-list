@@ -24,6 +24,20 @@ todo.listen = function(){
     });
 }()//listen
 
+todo.user.totalCountBump = function(i){
+    var t = parseInt($('#total').text());
+    t = t + i;
+    $('#total').text(t);
+}//
+
+todo.user.toDoCountBump = function(i){
+    var t = parseInt($('#count').text());
+    t = t + i;
+    t = (t>0) ? t : 0;
+    $('#count').text(t);
+}//
+
+
 todo.user.createToDo = function(){
     $('body').on('click','.add-to-do',function(){
         var data = {'create-to-do':$('textarea[name="create-to-do"]').val()};
@@ -33,6 +47,8 @@ todo.user.createToDo = function(){
             data:data,
             success:function(d){
                if(d){
+                   todo.user.totalCountBump(1);
+                   todo.user.toDoCountBump(1);
                    $('.to-do-list-container').prepend(d); 
                }//if
             }//success
@@ -49,6 +65,9 @@ todo.user.finishedToDo = function(){
             data:data,
             type:'PUT',
             success:function(d){
+                todo.user.toDoCountBump(-1);
+
+                $(that).parent().parent().find('.time').append("<p>finished: just now</p>");
                 $(that).parent().parent().find('.do').eq(0).removeClass('red').addClass('green');
                 $(that).remove();
             }//success
@@ -64,6 +83,11 @@ todo.user.deleteToDo = function(){
             url:'/delete/'+data['delete-to-do'],
             type:'DELETE',
             success:function(d){
+                todo.user.totalCountBump(-1);
+                if($(that).prev().hasClass('finished')){
+                    todo.user.toDoCountBump(-1);
+                }//if
+
                 $(that).parent().parent().remove();    
             }//success
         });

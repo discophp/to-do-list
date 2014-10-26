@@ -6,6 +6,20 @@ Class to_do extends Disco\classes\Model {
     public $ids = Array('id','user_id');
 
 
+    public function createTable(){
+        return DB::query('
+            CREATE TABLE `to_do` (
+              `id` int(11) NOT NULL AUTO_INCREMENT,
+              `user_id` int(11) NOT NULL,
+              `do` blob NOT NULL,
+              `created` datetime NOT NULL,
+              `finished` datetime DEFAULT NULL,
+              `deleted` tinyint(1) NOT NULL DEFAULT 0,
+              PRIMARY KEY (`id`,`user_id`)
+            )');
+    }//createTable
+
+
     public function todos(){
         $result = $this->select('id,do,created,finished')
             ->where(Array('user_id'=>Session::get('user'),'deleted'=>'0'))
@@ -20,15 +34,14 @@ Class to_do extends Disco\classes\Model {
             }//if
 
             $row['created'] = Util::timeSince($row['created']);
-
             $row['finished_class'] = ($row['finished']) ? 'green' : 'red';
-            $row['finished_class1'] = $row['finished_class'];
             $data[] = $row;
         }//while
 
         return $data;
 
     }//todos
+
 
     public function createToDo($do){
         $id = $this->insert(

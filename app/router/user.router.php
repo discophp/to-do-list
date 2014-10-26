@@ -10,7 +10,17 @@ Router::get('/logout',function(){
 Router::get('/',function(){
     $data = Array();
 
+    View::title('Your To Do List');
+
     $data['to_do'] = Model::m('to_do')->todos();
+
+    $data['to_do_total_count'] = count($data['to_do']);
+
+    $data['to_do_count'] = Model::m('to_do')->select('COUNT(*) AS count')
+                                      ->where(Array('user_id'=>Session::get('user'),'finished'=>null))
+                                      ->data()->fetch_assoc()['count'];
+
+
     Template::with('user/index',$data); 
 
     View::script('todo.user.createToDo();');
