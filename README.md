@@ -37,3 +37,6 @@ docs</a></p>
 ```
 
 <p>Your good to go!</p>
+
+<img src='http://discophp.com/images/to-do-list-screen-shot.png'/>
+<img src='http://discophp.com/images/to-do-list-screen-shot1.png'/>
