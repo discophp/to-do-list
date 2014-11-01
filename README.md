@@ -38,5 +38,7 @@ docs</a></p>
 
 <p>Your good to go!</p>
 
+<hr>
 <img src='http://discophp.com/images/to-do-list-screen-shot.png'/>
+<hr>
 <img src='http://discophp.com/images/to-do-list-screen-shot1.png'/>
