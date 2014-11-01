@@ -20,7 +20,6 @@ Router::get('/',function(){
                                       ->where(Array('user_id'=>Session::get('user'),'finished'=>null))
                                       ->data()->fetch_assoc()['count'];
 
-
     Template::with('user/index',$data); 
 
     View::script('todo.user.createToDo();');

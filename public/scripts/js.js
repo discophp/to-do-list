@@ -39,8 +39,9 @@ todo.user.toDoCountBump = function(i){
 
 
 todo.user.createToDo = function(){
+    var $ta = $('textarea[name="create-to-do"]');
     $('body').on('click','.add-to-do',function(){
-        var data = {'create-to-do':$('textarea[name="create-to-do"]').val()};
+        var data = {'create-to-do':$ta.val()};
         $.ajax({
             url:'/create',
             type:'POST',
@@ -50,6 +51,7 @@ todo.user.createToDo = function(){
                    todo.user.totalCountBump(1);
                    todo.user.toDoCountBump(1);
                    $('.to-do-list-container').prepend(d); 
+                   $ta.val('');
                }//if
             }//success
         });
@@ -95,7 +97,10 @@ todo.user.deleteToDo = function(){
 }//deleteToDo
 
 user.signup = function(){
+
+
     $('body').on('click','.button.signup',function(){
+        $('.data-alert').remove();
         var that = this;
         $.ajax({
             url:'/signup',
@@ -104,6 +109,9 @@ user.signup = function(){
             success:function(data){
                 if(data==-1){
                     $(that).after('<div data-alert class="alert-box alert">That email is already in use<a class="close">&times;</a></div>');
+                }//elif
+                else if(data==0){
+                    shake(that);
                 }//elif
                 else if(data){
                     window.location.href = window.location.href;
@@ -114,7 +122,15 @@ user.signup = function(){
 }//signup
 
 user.signin = function(){
+
+    $('input').on('keypress',function(event){
+        if(event.keyCode == 13){
+            $(this).parent().parent().find('.button').eq(0).click();
+        }//if
+    });
+
     $('body').on('click','.button.signin',function(){
+        var that = this;
         $.ajax({
             url:'/signin',
             data:$(this).parent().serialize(),
@@ -123,6 +139,9 @@ user.signin = function(){
                 if(data==1){
                     window.location.href = window.location.href;
                 }//if
+                else {
+                    shake(that);
+                }//el
             }//success
         });
     });
