@@ -1,0 +1,29 @@
+{
+    "name": "discophp/project",
+    "description": "php framework",
+    "license": "Apache License V2",
+    "authors": [
+        {
+            "name": "Bradley Hamilton",
+            "email": "bradleygoskimmin@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "discophp/framework":"dev-dev-master"
+    },
+    "autoload": {
+        "classmap":[
+            "app/view/",
+            "app/controller/",
+            "app/model/",
+            "app/facade/",
+            "app/record/",
+            "app/service/"
+        ]
+    },
+    "scripts": {
+        "post-install-cmd":"php disco post-install-cmd"
+    }
+
+}
