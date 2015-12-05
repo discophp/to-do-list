@@ -4,7 +4,7 @@ namespace App\view;
 Class Standard extends \Disco\classes\View {
 
     public function header(){
-        return \Template::build('header.html');
+        return \Template::render('header',['logged_in' => \Session::has('user')]);
     }//header
 
     public function __construct(){
