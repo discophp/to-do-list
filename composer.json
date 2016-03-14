@@ -4,13 +4,13 @@
     "license": "Apache License V2",
     "authors": [
         {
-            "name": "Bradley Hamilton",
-            "email": "bradleygoskimmin@gmail.com"
+            "name": "WebYoke",
+            "email": "support@webyoke.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "discophp/framework":"dev-dev-master"
+        "discophp/framework":"3.0"
     },
     "autoload": {
         "classmap":[
@@ -23,7 +23,7 @@
         ]
     },
     "scripts": {
-        "post-install-cmd":"php disco post-install-cmd"
+        "post-install-cmd":"php public/index.php post-install-cmd"
     }
 
 }
