@@ -1,20 +1,17 @@
 <?php
 //Require the composer autoloader. 
-require('../vendor/autoload.php');
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-//setup the application
+//Setup the application
 \Disco\classes\App::instance()->setUp();
-
-
-/**
- * YOUR APPLICATION LOGIC GOES BELOW
- * ---------------------------------
-*/
-
 
 try {
 
+    //Include the application logic
     require '../app/index.php';
+
+    //Tear down the app
+    App::tearDown();
 
 } catch(\Exception $e){
 
@@ -24,15 +21,9 @@ try {
     //*************************
 
     error_log($e->getMessage());
-    http_response_code(500);
-    echo 'Internal Server Error';
-    exit;
+    \View::serve(500);
     
 }//catch
 
 
-/**
- * ---------------------------------
- * YOUR APPLICATION LOGIC STAYS ABOVE 
-*/
-App::tearDown();
+
