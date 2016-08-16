@@ -11,8 +11,6 @@ class ToDo {
 
         $data = [];
 
-        $data['flash'] = \Session::flash();
-
         $data['completed_total'] = $model->select('COUNT(*) AS total')
             ->where('completed_on IS NOT NULL AND user_id=?', \Session::get('user'))
             ->first()['total'];
@@ -27,7 +25,7 @@ class ToDo {
             ->order('created_on DESC')
             ->asArray();
 
-        \Template::with('to-dos', $data);
+        \Template::with('index', $data);
 
     }//getIndex
 

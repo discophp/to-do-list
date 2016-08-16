@@ -1,18 +1,79 @@
+
+{% if App.with('Session').hasFlash('toDoItemError') %}
+    <div class='callout alert'>{{ App.with('Session').getFlash('toDoItemError') }}</div>
+{% endif %}
+
+
+<h1>Create a To Do</h1>
+<form action='/' method='post'>
+    {{ App.with('Data').getCSRFTokenInput }}
+    <input type='text' placeholder='Title...' value='{{ item.title }}' name='title' required/>
+    <textarea placeholder='Description' name='description'>{{ item.description }}</textarea>
+    <input class='button' type='submit' value='Create'/>
+</form>
+
+<hr>
+
 <div class='row'>
-
-    <h1>Strap up those rollerblades and prepare to boogie, the <i>Disco</i> is in full effect!</h1>
-    
-    <hr>
-
-    <p>This is your index, and the content is coming from <i>`app/template/index.html`</i></p>
-    
-    <p>Your seeing this because the route <i>`/`</i> has been resolved to the root controller <i>`App\controller\Root`</i> and the function
-    <i>`getIndex()`</i> was called and returned this template.</p>
-    
-    <p>The view is by default using the template <i>`app/template_default.html`</i> to format pages and their <i>Header, Body, and Footer</i>
-    the default template is extending the <i>`app/template/_layout.html`</i> which provides the generic HTML structure and resource handling.</p>
-
-    <p>You will notice that the footer stays at the bottom, this is done by the `App.flex()` method in `public/js/js.js` feel free to do with it what as you will.</p>
-
+    <div class='small-4 columns'>
+        <h2>Your To Dos</h2>
+    </div>
+    <div class='small-8 columns meta-info text-right'>
+        <div>{{ completed_total }} Completed</div>
+        <div>{{ toDos|length }} In Progress</div>
+    </div>
 </div>
 
+<br></br>
+
+<ol>
+{% for item in toDos %}
+    <li class='to-do-item'>
+        <div class='row'>
+            <div class='small-8 columns'>
+                <div class='created-on'>Created On : {{ item.created_on_pretty }}</div>
+            </div>
+            <div class='small-4 columns button-group'>
+                <form action='/{{ item.id }}/delete' method='post'>
+                    {{ App.with('Data').getCSRFTokenInput }}
+                    <input class='button alert' type='submit' value='X' title='Delete this To Do Item'/>
+                </form>
+                <form action='/{{ item.id }}/complete' method='post'>
+                    {{ App.with('Data').getCSRFTokenInput }}
+                    <input class='button success' type='submit' value='Completed' title='Mark this To Do Item Completed'/>
+                </form>
+            </div>
+        </div>
+        <form action='/{{ item.id }}' method='post'>
+            {{ App.with('Data').getCSRFTokenInput }}
+            <div class='row'>
+
+                <div class='small-1 columns'>
+                    <label class='middle'>Title</label>
+                </div>
+                <div class='small-11 columns'>
+                    <input type='text' placeholder='Title...' value='{{ item.title }}' name='title' required title='Click to edit the title'/>
+                </div>
+
+            </div>
+
+            <div class='row'>
+
+                <div class='small-1 columns'>
+                    <label class='middle'>Description</label>
+                </div>
+                <div class='small-11 columns'>
+                    <textarea placeholder='Description' name='description' title='Click to edit the description'>{{ item.description }}</textarea>
+                </div>
+
+            </div>
+
+            <input class='button' type='submit' value='Update'/>
+        </form>
+    </li>
+{% endfor %}
+</ol>
+
+{% if toDos|length == 0 %}
+    <strong>You have nothing to do! Yippie!!</strong>
+{% endif %}

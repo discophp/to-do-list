@@ -2,8 +2,8 @@
 --
 -- Host: localhost	Database: TO_DO_LIST
 -- ------------------------------------------------------
--- Server version 	5.5.46-0ubuntu0.14.04.2
--- Date: Sat, 05 Dec 2015 08:31:01 -0500
+-- Server version 	5.5.50-0ubuntu0.14.04.1
+-- Date: Tue, 16 Aug 2016 18:20:13 -0400
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,8 +30,10 @@ CREATE TABLE `to_do_item` (
   `description` text,
   `created_on` datetime NOT NULL,
   `completed_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`,`user_id`),
+  KEY `user_tdi_fk_idx` (`user_id`),
+  CONSTRAINT `user_tdi_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +49,7 @@ CREATE TABLE `user` (
   `email` varchar(420) NOT NULL,
   `password` varchar(180) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +61,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on: Sat, 05 Dec 2015 08:31:01 -0500
+-- Dump completed on: Tue, 16 Aug 2016 18:20:13 -0400

@@ -1,12 +1,16 @@
 <fieldset>
     <legend>Login</legend>
 
-    {% if flash.failedLogin %}
-        <div class='callout alert'>Invalid Login Credentials!</div>
+    {% if App.with('Session').hasFlash('failedLogin') %}
+        {{ View.callout('Invalid Login Credentials!') }}
     {% endif %}
 
+    {% if App.with('Session').hasFlash('profileDeleted') %}
+        {{ View.callout('Your account has been deleted!') }}
+    {% endif %}
 
     <form method='post' action='/login'>
+        {{ App.with('Data').getCSRFTokenInput }}
         <label>Email</label>
         <input type='text' name='email' required/>
         <label>Password</label>

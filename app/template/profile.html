@@ -1,0 +1,105 @@
+{% do View.title('Edit Your Profile') %}
+
+<fieldset>
+
+    <div class='row collapse'>
+        <div class='small-12 medium-6 columns'>
+            <h1>Edit Your Profile</h1>
+        </div>
+        <div class='small-12 medium-6 columns text-right'>
+            <div class='button' data-open='password-modal'>Change Password</div>
+            <form method='post' action='/profile/delete' id='delete-account'>
+                {{ App.with('Data').getCSRFTokenInput }}
+                <input class='button warning' type='submit' value='Delete Account'/>
+            </form>
+        </div>
+    </div>
+
+    {% set data = App.with('User').getData() %}
+
+    {% set error = false %}
+
+    {% if App.with('Session').hasFlash('failedProfile') %}
+
+        {% set error = App.with('Session').getComplexFlash('failedProfile') %}
+
+        {% if error._general %}
+            {{ View.callout(error._general) }}
+        {% endif %}
+
+    {% endif %}
+
+    {% if App.with('Session').hasFlash('successProfile') %}
+        {{ View.callout('Your profile has been updated!','success') }}
+    {% endif %}
+
+    <form method='post' action='/profile/'>
+
+        {{ App.with('Data').getCSRFTokenInput }}
+
+        <label>Name</label>
+        <input type='text' name='name' value='{{ data.name }}' required/>
+        {% if error and error.name %}
+            {{ View.callout(error.name) }}
+        {% endif %}
+
+        <label>Email</label>
+        <input type='text' name='email' value='{{ data.email }}' required/>
+        {% if error and error.email %}
+            {{ View.callout(error.email) }}
+        {% endif %}
+
+        <input class='button' type='submit' value='Update'/>
+
+    </form>
+
+</fieldset>
+
+
+<div class='reveal small' data-reveal id='password-modal'>
+
+    <fieldset>
+
+        <h1>Change Your Password</h1>
+
+        <form method='post' action='/profile/password'>
+
+            {{ App.with('Data').getCSRFTokenInput }}
+
+            <label>Password</label>
+            <input type='password' name='password' required/>
+            {% if error and error.password %}
+                {{ View.callout(error.password) }}
+            {% endif %}
+
+
+            <label>Verify Password</label>
+            <input type='password' name='password_verify' required/>
+            {% if error and error.password_verify %}
+                {{ View.callout(error.password_verify) }}
+            {% endif %}
+
+            <input class='button' type='submit' value='Change'/>
+
+        </form>
+
+    </fieldset>
+
+</div>
+
+{% if error and (error.password or error.password_verify) %}
+    {% script %}
+        $(function(){
+            $('#password-modal').foundation('open');
+        });
+    {% endscript %}
+{% endif %}
+
+{% script %}
+    $('form#delete-account').on('submit',function(event){
+        if(!confirm('Are you sure you want to delete your account?')){
+            event.preventDefault(); 
+            return false;
+        }//if
+    });
+{% endscript %}

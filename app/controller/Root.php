@@ -6,7 +6,8 @@ Class Root {
 
     public function __construct(){
 
-        if(\Session::has('user')){
+        //if the user is logged in redirect back to index
+        if(\App::with('User')->isLoggedIn()){
             \View::redirect('/');
         }//if
 
@@ -17,11 +18,7 @@ Class Root {
     public function getLogin(){
 
         \View::title('Login');
-
-        $data = [];
-        $data['flash'] = \Session::flash();
-
-        \Template::with('login', $data);
+        \Template::with('login');
 
     }//getLogin
 
@@ -31,22 +28,12 @@ Class Root {
 
         $data = \Data::post(Array('email','password'));
 
-        $data['password'] = \Crypt::hash($data['password']);
-
-        $record = \App\record\User::find($data,'id');
-
-        if($record !== false){
-
-            \Session::set('user', $record->id);
-            \Session::regen();
-
-            \View::redirect('/');
-
+        if(!\App::with('User')->login($data['email'],$data['password'])){
+            \Session::setFlash('failedLogin', true);
+            \View::redirect('/login');
         }//if
 
-        \Session::setFlash('failedLogin', true);
-
-        \View::redirect('/login');
+        \View::redirect('/');
 
     }//postLogin
 
@@ -55,39 +42,24 @@ Class Root {
     public function getSignup(){
 
         \View::title('Signup');
-
-        $data = [];
-        $data['flash'] = \Session::flash();
-
-        \Template::with('signup', $data);
+        \Template::with('signup');
 
     }//getSignup
 
 
     public function postSignup(){
 
-        $data = \Data::post(['name','email','password']);
+        $data = \Data::post(['name','email','password','password_verify']);
 
-        $data['password'] = \Crypt::hash($data['password']);
+        $result = \App::with('User')->signup($data);
 
-        $record = new \App\record\User($data);
-
-        try {
-
-            $record->insert();
-
-            \Session::set('user', $record->id);
-            \Session::regen();
-
-            \View::redirect('/');
-
-        } catch(\Disco\exceptions\Record $e){
-
-            \Session::setFlash('failedSignup', $e->getMessage());
+        if($result !== true){
+            \Session::setComplexFlash('failedSignup', $result);
+            \Session::setComplexFlash('failedSignupData', $data);
             \View::redirect('/signup');
+        }//if
 
-        }//catch
-
+        \View::redirect('/');
 
     }//postSignup
 

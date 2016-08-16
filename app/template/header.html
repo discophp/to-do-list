@@ -1,12 +1,25 @@
-<div class='row'>
-    <div class='small-6 columns'>
+<div class='row collapse'>
+    <div class='small-12 medium-6 columns'>
         <a target='_blank' href='https://github.com/discophp/to-do-list'>Disco PHP Framework To Do List Sample Application</a>
     </div>
-    <div class='small-6 columns text-right'>
-        {% if logged_in %}
-            <a href="/logout">Logout</a>
+    <div class='small-12 medium-6 columns text-right'>
+        {% if App.with('User').isLoggedIn() %}
+            <ul class='dropdown menu' data-dropdown-menu>
+                <li>
+                    <a>{{ App.with('User').getData().name }}</a>
+                    <ul class='menu'>
+                        <li><a href='/'>Your To-Dos</a></li>
+                        <li><a href="/profile/" title='Edit Your Information'>Edit Profile</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
         {% else %}
-            <a href="/signup">Signup</a>
+            {% if App.with('Request').uri != '/login' %}
+                <a href="/login">Login</a>
+            {% else %}
+                <a href="/signup">Signup</a>
+            {% endif %}
         {% endif %}
     </div>
 </div>

@@ -2,17 +2,50 @@
 
     <legend>Signup</legend>
 
-    {% if flash.failedSignup %}
-        <div class='callout alert'>{{ flash.failedSignup }}</div>
+    {% set error = false %}
+    {% set data = {} %}
+
+    {% if App.with('Session').hasFlash('failedSignup') %}
+
+        {% set error = App.with('Session').getComplexFlash('failedSignup') %}
+
+        {% set data = App.with('Session').getComplexFlash('failedSignupData') %}
+
+        {% if error._general %}
+            {{ View.callout(error._general) }}
+        {% endif %}
+
     {% endif %}
 
     <form method='post' action='/signup'>
+
+        {{ App.with('Data').getCSRFTokenInput }}
+
         <label>Name</label>
-        <input type='text' name='name' required/>
+        <input type='text' name='name' value='{{ data.name }}' required/>
+        {% if error and error.name %}
+            {{ View.callout(error.name) }}
+        {% endif %}
+
         <label>Email</label>
-        <input type='text' name='email' required/>
+        <input type='text' name='email' value='{{ data.email }}' required/>
+        {% if error and error.email %}
+            {{ View.callout(error.email) }}
+        {% endif %}
+
+
         <label>Password</label>
         <input type='password' name='password' required/>
+        {% if error and error.password %}
+            {{ View.callout(error.password) }}
+        {% endif %}
+
+
+        <label>Verify Password</label>
+        <input type='password' name='password_verify' required/>
+        {% if error and error.password_verify %}
+            {{ View.callout(error.password_verify) }}
+        {% endif %}
 
         <input class='button' type='submit' value='Signup'/>
 

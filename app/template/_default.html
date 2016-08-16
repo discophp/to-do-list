@@ -2,9 +2,20 @@
 
 {% block content %}
 
+
     <div class='body-content-wrapper'>
+
         <div class='header'>{{ View.getHeader }}</div>
-        <div class='body row'>{{ View.body }}</div>
+
+        <div class='body row'>
+
+            {% if App.with('Session').hasFlash('badToken') %}
+                <div class='callout alert'>You dont have permission to do that! (Bad token received in request)</div>
+            {% endif %}
+
+            {{ View.body }}
+
+        </div>
     </div>
 
     <div class='footer'>{{ View.getFooter }}</div>
