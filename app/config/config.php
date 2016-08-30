@@ -15,7 +15,7 @@ return array (
   'DB_CHARSET' => 'utf8',
   'DB_HOST' => 'localhost',
   'DB_USER' => 'root',
-  'DB_PASSWORD' => 'rainbow22',
+  'DB_PASSWORD' => '',
   'DB_DB' => 'TO_DO_LIST',
   'AES_KEY256' => '',
   'SHA512_SALT' => '',
